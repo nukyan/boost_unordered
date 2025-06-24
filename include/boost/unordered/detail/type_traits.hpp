@@ -11,9 +11,7 @@
 #pragma once
 
 
-#if !defined(BOOST_NO_CXX17_DEDUCTION_GUIDES)
 #include <iterator>
-#endif
 
 #include <type_traits>
 #include <utility>
@@ -21,14 +19,9 @@
 // BOOST_UNORDERED_TEMPLATE_DEDUCTION_GUIDES
 
 #if !defined(BOOST_UNORDERED_TEMPLATE_DEDUCTION_GUIDES)
-#if !defined(BOOST_NO_CXX17_DEDUCTION_GUIDES)
 #define BOOST_UNORDERED_TEMPLATE_DEDUCTION_GUIDES 1
 #endif
-#endif
 
-#if !defined(BOOST_UNORDERED_TEMPLATE_DEDUCTION_GUIDES)
-#define BOOST_UNORDERED_TEMPLATE_DEDUCTION_GUIDES 0
-#endif
 
 namespace boost {
   namespace unordered {
@@ -143,7 +136,6 @@ namespace boost {
       {
       };
 
-#if BOOST_UNORDERED_TEMPLATE_DEDUCTION_GUIDES
       // https://eel.is/c++draft/container.requirements#container.alloc.reqmts-34
       // https://eel.is/c++draft/container.requirements#unord.req.general-243
 
@@ -182,18 +174,8 @@ namespace boost {
       template <typename T>
       using iter_to_alloc_t =
         typename std::pair<iter_key_t<T> const, iter_val_t<T> >;
-#endif
 
-#if BOOST_CXX_VERSION < 201703L
-      template <class T>
-      constexpr typename std::add_const<T>::type& as_const(T& t) noexcept
-      {
-        return t;
-      }
-      template <class T> void as_const(const T&&) = delete;
-#else
       using std::as_const;
-#endif
     } // namespace detail
   } // namespace unordered
 } // namespace boost

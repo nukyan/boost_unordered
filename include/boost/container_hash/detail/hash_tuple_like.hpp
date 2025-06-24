@@ -8,7 +8,6 @@
 
 #include <boost/container_hash/hash_fwd.hpp>
 #include <boost/container_hash/is_tuple_like.hpp>
-#include <boost/container_hash/is_range.hpp>
 #include <type_traits>
 #include <utility>
 
@@ -50,7 +49,7 @@ inline std::size_t hash_tuple_like( T const& v )
 template <class T>
 inline
 typename std::enable_if<
-    container_hash::is_tuple_like<T>::value && !container_hash::is_range<T>::value,
+    container_hash::is_tuple_like<T>::value && !std::ranges::range<T>,
 std::size_t>::type
     hash_value( T const& v )
 {
