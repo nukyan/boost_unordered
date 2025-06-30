@@ -25,7 +25,18 @@ rm -rf predef
 
 cp ../../include/boost/minconfig.hpp .
 
-coan source -R '-DBOOST_WORKAROUND(a,b)=0' '-DBOOST_MP11_WORKAROUND(a,b)=0' -DBOOST_MP11_NO_WORKAROUNDS -DBOOST_HAS_PRAGMA_ONCE -DBOOST_CXX_VERSION=202002L -UBOOST_NO_CXX11_DEFAULTED_FUNCTIONS -UBOOST_NO_CXX11_RVALUE_REFERENCES -UBOOST_NO_CXX11_VARIADIC_TEMPLATES -UBOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION -UBOOST_NO_CXX17_DEDUCTION_GUIDES -UBOOST_NO_CXX11_RVALUE_REFERENCES .
+coan source -R \
+    -DBOOST_HAS_PRAGMA_ONCE \
+    -DBOOST_MP11_NO_WORKAROUNDS \
+    '-DBOOST_MP11_WORKAROUND(a,b)=0' \
+    '-DBOOST_WORKAROUND(a,b)=0' \
+    -UBOOST_NO_CXX11_DEFAULTED_FUNCTIONS \
+    -UBOOST_NO_CXX11_HDR_TYPE_TRAITS \
+    -UBOOST_NO_CXX11_RVALUE_REFERENCES \
+    -UBOOST_NO_CXX11_VARIADIC_TEMPLATES \
+    -UBOOST_NO_CXX17_DEDUCTION_GUIDES \
+    -UBOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION \
+    .
 
 find . -name '*.hpp' -exec sed -i 's|<boost/config.hpp>|<boost/minconfig.hpp>|g' {} \;
 
@@ -82,7 +93,7 @@ func_replace_boost_with_std() {
     if [ "$has_include" = yes ]; then
         sed -i "\|$2|d" "$1"
     fi
-    if grep -q "$3" "$1"; then
+    if grep -q "<$3>" "$1"; then
         return
     elif [ "$has_include" != "yes" ]; then
         return
